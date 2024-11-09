@@ -46,7 +46,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Main.executor": "Debug",
+    "Application.Main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "last_opened_file_path": "C:/Users/ricar/Rico's Stuff/School/Courses/COP4331/FinalProject",
     "node.js.detected.package.eslint": "true",
@@ -97,7 +97,7 @@
       <option name="presentableId" value="Default" />
       <updated>1731020459119</updated>
       <workItem from="1731020460259" duration="700000" />
-      <workItem from="1731021444230" duration="10143000" />
+      <workItem from="1731021444230" duration="10427000" />
     </task>
     <servers />
   </component>
