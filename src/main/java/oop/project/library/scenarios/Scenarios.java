@@ -5,6 +5,7 @@ import oop.project.library.parser.Parser;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Scenarios {
 
@@ -52,14 +53,15 @@ public class Scenarios {
         //so we can build up the actual command system in Part 3.
         try {
             var args = Lexer.lex(arguments);
+            if (args.size() > 2) {
+                throw new IllegalArgumentException("Too many arguments: " + args.size());
+            }
             int left = (Integer) Parser.parseArgument(args.get("0"), Parser.Type.INTEGER, null);
             int right = (Integer) Parser.parseArgument(args.get("1"), Parser.Type.INTEGER, null);
             Map<String, Object> result = new HashMap<>();
             result.put("left", left);
             result.put("right", right);
             return new Result.Success<>(result);
-            //Map<String, Object> result = new HashMap<>(args);
-            //return new Result.Success<>(result);
         } catch (Exception e) {
             return new Result.Failure<>("Error in add command: " + e.getMessage());
         }
@@ -74,8 +76,6 @@ public class Scenarios {
             result.put("left", left);
             result.put("right", right);
             return new Result.Success<>(result);
-            //Map<String, Object> result = new HashMap<>(args);
-            //return new Result.Success<>(result);
         } catch (Exception e) {
             return new Result.Failure<>("Error in sub command: " + e.getMessage());
         }
@@ -88,11 +88,33 @@ public class Scenarios {
         //the validation involved even if it's not in the library yet.
         //var number = IntegerParser.parse(lexedArguments.get("number"));
         //if (number < 1 || number > 100) ...
-        throw new UnsupportedOperationException("TODO"); //TODO
+        try {
+            var args = Lexer.lex(arguments);
+            int number = (Integer) Parser.parseArgument(args.get("0"), Parser.Type.INTEGER, null);
+            if (number < 1 || number > 100) {
+                throw new IllegalArgumentException("Expected valid number: " + number);
+            }
+            Map<String, Object> result = new HashMap<>();
+            result.put("number", number);
+            return new Result.Success<>(result);
+        } catch (Exception e) {
+            return new Result.Failure<>("Error in fizzbuzz command: " + e.getMessage());
+        }
     }
 
     private static Result<Map<String, Object>> difficulty(String arguments) {
-        throw new UnsupportedOperationException("TODO"); //TODO
+        try {
+            var args = Lexer.lex(arguments);
+            String difficulty = (String) Parser.parseArgument(args.get("0"), Parser.Type.STRING, null);
+            if (!Objects.equals(difficulty, "easy") && !Objects.equals(difficulty, "normal") &&!Objects.equals(difficulty, "hard") &&!Objects.equals(difficulty, "peaceful")) {
+                throw new IllegalArgumentException("Expected valid difficulty: " + difficulty);
+            }
+            Map<String, Object> result = new HashMap<>();
+            result.put("difficulty", difficulty);
+            return new Result.Success<>(result);
+        } catch (Exception e) {
+            return new Result.Failure<>("Error in difficulty command: " + e.getMessage());
+        }
     }
 
     private static Result<Map<String, Object>> echo(String arguments) {
