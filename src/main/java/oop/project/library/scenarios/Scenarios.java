@@ -1,5 +1,9 @@
 package oop.project.library.scenarios;
 
+import oop.project.library.lexer.Lexer;
+import oop.project.library.parser.Parser;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class Scenarios {
@@ -29,7 +33,13 @@ public class Scenarios {
     private static Result<Map<String, Object>> lex(String arguments) {
         //Note: For ease of testing, this should use your Lexer implementation
         //directly rather and return those values.
-        throw new UnsupportedOperationException("TODO"); //TODO
+        try {
+            Map<String, String> lexArguments = Lexer.lex(arguments);
+            Map<String, Object> result = new HashMap<>(lexArguments);
+            return new Result.Success<>(result);
+        } catch (Exception e) {
+            return new Result.Failure<>("Error lexing arguments: " + e.getMessage());
+        }
     }
 
     private static Result<Map<String, Object>> add(String arguments) {
@@ -40,11 +50,35 @@ public class Scenarios {
         //var left = IntegerParser.parse(args.positional[0]);
         //This is fine - our goal right now is to implement this functionality
         //so we can build up the actual command system in Part 3.
-        throw new UnsupportedOperationException("TODO"); //TODO
+        try {
+            var args = Lexer.lex(arguments);
+            int left = (Integer) Parser.parseArgument(args.get("0"), Parser.Type.INTEGER, null);
+            int right = (Integer) Parser.parseArgument(args.get("1"), Parser.Type.INTEGER, null);
+            Map<String, Object> result = new HashMap<>();
+            result.put("left", left);
+            result.put("right", right);
+            return new Result.Success<>(result);
+            //Map<String, Object> result = new HashMap<>(args);
+            //return new Result.Success<>(result);
+        } catch (Exception e) {
+            return new Result.Failure<>("Error in add command: " + e.getMessage());
+        }
     }
 
     private static Result<Map<String, Object>> sub(String arguments) {
-        throw new UnsupportedOperationException("TODO"); //TODO
+        try {
+            var args = Lexer.lex(arguments);
+            double left = (double) Parser.parseArgument(args.get("left"), Parser.Type.DOUBLE, null);
+            double  right = (double) Parser.parseArgument(args.get("right"), Parser.Type.DOUBLE, null);
+            Map<String, Object> result = new HashMap<>();
+            result.put("left", left);
+            result.put("right", right);
+            return new Result.Success<>(result);
+            //Map<String, Object> result = new HashMap<>(args);
+            //return new Result.Success<>(result);
+        } catch (Exception e) {
+            return new Result.Failure<>("Error in sub command: " + e.getMessage());
+        }
     }
 
     private static Result<Map<String, Object>> fizzbuzz(String arguments) {
