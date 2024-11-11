@@ -3,6 +3,9 @@ package oop.project.library.scenarios;
 import oop.project.library.lexer.Lexer;
 import oop.project.library.parser.Parser;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -162,7 +165,22 @@ public class Scenarios {
     }
 
     private static Result<Map<String, Object>> weekday(String arguments) {
-        throw new UnsupportedOperationException("TODO"); //TODO
+        try {
+            var args = Lexer.lex(arguments);
+            Parser.putCustomParser(LocalDate.class, value -> {
+                try {
+                    return LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE);
+                } catch (DateTimeParseException e) {
+                    throw new IllegalArgumentException("Expected valid date format: " + value);
+                }
+            });
+            LocalDate data = (LocalDate) Parser.parseArgument(args.get("0"), Parser.Type.CUSTOM, LocalDate.class);
+            Map<String, Object> result = new HashMap<>();
+            result.put("date", data);
+            return new Result.Success<>(result);
+        } catch (Exception e) {
+            return new Result.Failure<>("Error in weekday command: " + e.getMessage());
+        }
     }
 
 }

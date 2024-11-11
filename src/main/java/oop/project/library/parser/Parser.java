@@ -1,9 +1,20 @@
 package oop.project.library.parser;
 
+import oop.project.library.custom.ArgumentParser;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Parser {
 
     public enum Type {
         BOOLEAN, INTEGER, DOUBLE, STRING, CUSTOM
+    }
+
+    private static final Map<Class<?>, ArgumentParser<?>> customParsers = new HashMap<>();
+
+    public static <T> void putCustomParser(Class<T> customType, ArgumentParser<T> parser) {
+        customParsers.put(customType, parser);
     }
 
     public static Object parseArgument(String value, Type type, Class<?> customType) throws IllegalArgumentException {
@@ -54,7 +65,11 @@ public class Parser {
     }
 
     private static Object parseCustom(String value, Class<?> customType) {
-        return false;
+        if (customType == null || !customParsers.containsKey(customType)) {
+            throw new IllegalArgumentException("No parser registered for custom type: " + customType);
+        }
+        // Use the registered parser for the specified custom type
+        return customParsers.get(customType).parse(value);
     }
 
 }
