@@ -6,6 +6,10 @@ import java.util.Map;
 public class Lexer {
 
     public static Map<String, String> lex(String input) {
+        if (input.length() == 0) {
+            return new HashMap<>();
+        }
+        
         Map<String,String> arguments = new HashMap<>();
         String[] values = input.split("\\s+");
 

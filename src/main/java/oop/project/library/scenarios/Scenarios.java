@@ -118,11 +118,47 @@ public class Scenarios {
     }
 
     private static Result<Map<String, Object>> echo(String arguments) {
-        throw new UnsupportedOperationException("TODO"); //TODO
+        try {
+            var args = Lexer.lex(arguments);
+            if (args.isEmpty()) {
+                String message = (String) Parser.parseArgument("Echo, echo, echo!", Parser.Type.STRING, null);
+                Map<String, Object> result = new HashMap<>();
+                result.put("message", message);
+                return new Result.Success<>(result);
+            }
+            String message = (String) Parser.parseArgument(args.get("0"), Parser.Type.STRING, null);
+            Map<String, Object> result = new HashMap<>();
+            result.put("message", message);
+            return new Result.Success<>(result);
+        } catch (Exception e) {
+            return new Result.Failure<>("Error in echo command: " + e.getMessage());
+        }
     }
 
     private static Result<Map<String, Object>> search(String arguments) {
-        throw new UnsupportedOperationException("TODO"); //TODO
+        try {
+            var args = Lexer.lex(arguments);
+            Map<String, Object> result = new HashMap<>();
+            if (args.size() == 2) {
+                Boolean case_insensitive = (Boolean) Parser.parseArgument(args.get("case-insensitive"), Parser.Type.BOOLEAN, null);
+                if (case_insensitive) {
+                    String term = (String) Parser.parseArgument(args.get("0"), Parser.Type.STRING, null);
+                    result.put("term", term);
+                } else {
+                    String term = (String) Parser.parseArgument(args.get("0").toLowerCase(), Parser.Type.STRING, null);
+                    result.put("term", term);
+                }
+                result.put("case-insensitive", case_insensitive);
+            } else if (args.size() == 1) {
+                Boolean case_insensitive = (Boolean) Parser.parseArgument("false", Parser.Type.BOOLEAN, null);
+                String term = (String) Parser.parseArgument(args.get("0"), Parser.Type.STRING, null);
+                result.put("term", term);
+                result.put("case-insensitive", case_insensitive);
+            }
+            return new Result.Success<>(result);
+        } catch (Exception e) {
+            return new Result.Failure<>("Error in search command: " + e.getMessage());
+        }
     }
 
     private static Result<Map<String, Object>> weekday(String arguments) {
