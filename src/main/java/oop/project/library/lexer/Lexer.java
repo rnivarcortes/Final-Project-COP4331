@@ -9,7 +9,7 @@ public class Lexer {
         if (input.length() == 0) {
             return new HashMap<>();
         }
-        
+
         Map<String,String> arguments = new HashMap<>();
         String[] values = input.split("\\s+");
 
@@ -31,7 +31,7 @@ public class Lexer {
                 }
 
             } else if (values[i].startsWith("---")) {
-                throw new IllegalArgumentException("Invalid argumen format: " + values[i]);
+                throw new IllegalArgumentException("Invalid argument format: " + values[i]);
             } else {
                 arguments.put(String.valueOf(index++), values[i]);
             }
