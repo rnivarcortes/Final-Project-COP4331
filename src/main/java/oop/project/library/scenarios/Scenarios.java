@@ -56,8 +56,8 @@ public class Scenarios {
         //so we can build up the actual command system in Part 3.
         try {
             var args = Lexer.lex(arguments);
-            if (args.size() > 2) {
-                throw new IllegalArgumentException("Too many arguments: " + args.size());
+            if (args.size() > 2 || args.isEmpty()) {
+                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
             }
             int left = (Integer) Parser.parseArgument(args.get("0"), Parser.Type.INTEGER, null);
             int right = (Integer) Parser.parseArgument(args.get("1"), Parser.Type.INTEGER, null);
@@ -66,13 +66,16 @@ public class Scenarios {
             result.put("right", right);
             return new Result.Success<>(result);
         } catch (Exception e) {
-            return new Result.Failure<>("Error in add command: " + e.getMessage());
+            return new Result.Failure<>(e.getMessage());
         }
     }
 
     private static Result<Map<String, Object>> sub(String arguments) {
         try {
             var args = Lexer.lex(arguments);
+            if (args.size() > 2 || args.isEmpty()) {
+                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
+            }
             double left = (double) Parser.parseArgument(args.get("left"), Parser.Type.DOUBLE, null);
             double  right = (double) Parser.parseArgument(args.get("right"), Parser.Type.DOUBLE, null);
             Map<String, Object> result = new HashMap<>();
@@ -80,7 +83,7 @@ public class Scenarios {
             result.put("right", right);
             return new Result.Success<>(result);
         } catch (Exception e) {
-            return new Result.Failure<>("Error in sub command: " + e.getMessage());
+            return new Result.Failure<>(e.getMessage());
         }
     }
 
@@ -93,6 +96,9 @@ public class Scenarios {
         //if (number < 1 || number > 100) ...
         try {
             var args = Lexer.lex(arguments);
+            if (args.size() > 1 || args.isEmpty()) {
+                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
+            }
             int number = (Integer) Parser.parseArgument(args.get("0"), Parser.Type.INTEGER, null);
             if (number < 1 || number > 100) {
                 throw new IllegalArgumentException("Expected valid number: " + number);
@@ -108,6 +114,9 @@ public class Scenarios {
     private static Result<Map<String, Object>> difficulty(String arguments) {
         try {
             var args = Lexer.lex(arguments);
+            if (args.size() > 1 || args.isEmpty()) {
+                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
+            }
             String difficulty = (String) Parser.parseArgument(args.get("0"), Parser.Type.STRING, null);
             if (!Objects.equals(difficulty, "easy") && !Objects.equals(difficulty, "normal") &&!Objects.equals(difficulty, "hard") &&!Objects.equals(difficulty, "peaceful")) {
                 throw new IllegalArgumentException("Expected valid difficulty: " + difficulty);
@@ -128,6 +137,9 @@ public class Scenarios {
                 Map<String, Object> result = new HashMap<>();
                 result.put("message", message);
                 return new Result.Success<>(result);
+            }
+            if (args.size() > 1) {
+                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
             }
             String message = (String) Parser.parseArgument(args.get("0"), Parser.Type.STRING, null);
             Map<String, Object> result = new HashMap<>();
@@ -157,6 +169,8 @@ public class Scenarios {
                 String term = (String) Parser.parseArgument(args.get("0"), Parser.Type.STRING, null);
                 result.put("term", term);
                 result.put("case-insensitive", case_insensitive);
+            } else if (args.size() > 2 || args.isEmpty()) {
+                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
             }
             return new Result.Success<>(result);
         } catch (Exception e) {
@@ -167,6 +181,9 @@ public class Scenarios {
     private static Result<Map<String, Object>> weekday(String arguments) {
         try {
             var args = Lexer.lex(arguments);
+            if (args.size() > 1 || args.isEmpty()) {
+                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
+            }
             Parser.putCustomParser(LocalDate.class, value -> {
                 try {
                     return LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE);
