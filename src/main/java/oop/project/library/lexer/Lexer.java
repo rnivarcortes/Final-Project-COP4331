@@ -1,18 +1,24 @@
 package oop.project.library.lexer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Lexer {
 
-    public static Map<String, String> lex(String input) {
-        
-        if (input.length() == 0) {
-            return new HashMap<>();
-        }
+    public record Data(
+            List<String> positional,
+            Map<String, String> named
+    ) {}
+
+    public static Data lex(String input) {
 
         Map<String,String> arguments = new HashMap<>();
         String[] values = input.split("\\s+");
+
+        if (input.isEmpty()) {
+            return new Data(List.of(values), arguments);
+        }
 
         int index = 0;
 
@@ -25,6 +31,11 @@ public class Lexer {
                }
 
                String flag = values[i].substring(2);
+
+                //check name of command
+                //dependent of name, save into map based off argument names
+                //save the string "--optional""
+
                 if (i + 1 < values.length && !values[i + 1].startsWith("--")) {
                     arguments.put(flag, values[++i]);
                 } else {
@@ -39,6 +50,7 @@ public class Lexer {
 
         }
 
-        return arguments;
+        return new Data(List.of(values), arguments);
+
     }
 }

@@ -1,14 +1,13 @@
 package oop.project.library.scenarios;
 
 import oop.project.library.lexer.Lexer;
-import oop.project.library.parser.Parser;
+import oop.project.library.parser.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class Scenarios {
 
@@ -38,8 +37,8 @@ public class Scenarios {
         //Note: For ease of testing, this should use your Lexer implementation
         //directly rather and return those values.
         try {
-            Map<String, String> lexArguments = Lexer.lex(arguments);
-            Map<String, Object> result = new HashMap<>(lexArguments);
+            var lexArguments = Lexer.lex(arguments);
+            Map<String, Object> result = new HashMap<>(lexArguments.named());
             return new Result.Success<>(result);
         } catch (Exception e) {
             return new Result.Failure<>("Error lexing arguments: " + e.getMessage());
@@ -56,11 +55,14 @@ public class Scenarios {
         //so we can build up the actual command system in Part 3.
         try {
             var args = Lexer.lex(arguments);
-            if (args.size() > 2 || args.isEmpty()) {
-                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
+            if (args.named().size() > 2 || args.named().isEmpty()) {
+                return new Result.Failure<>("Invalid # of Arguments: " + args.named().size());
             }
-            int left = (Integer) Parser.parseArgument(args.get("0"), Parser.Type.INTEGER, null);
-            int right = (Integer) Parser.parseArgument(args.get("1"), Parser.Type.INTEGER, null);
+            //int left = (Integer) Parser.parseArgument(args.named().get("0"), Parser.Type.INTEGER, null);
+            //int right = (Integer) Parser.parseArgument(args.named().get("1"), Parser.Type.INTEGER, null);
+            //int left = args.parse().IntegerParser(args.named().get("0"));
+            int left = Parser.useParser(new IntegerParser(), args.named().get("0"));
+            int right = Parser.useParser(new IntegerParser(), args.named().get("1"));
             Map<String, Object> result = new HashMap<>();
             result.put("left", left);
             result.put("right", right);
@@ -73,11 +75,13 @@ public class Scenarios {
     private static Result<Map<String, Object>> sub(String arguments) {
         try {
             var args = Lexer.lex(arguments);
-            if (args.size() > 2 || args.isEmpty()) {
-                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
+            if (args.named().size() > 2 || args.named().isEmpty()) {
+                return new Result.Failure<>("Invalid # of Arguments: " + args.named().size());
             }
-            double left = (double) Parser.parseArgument(args.get("left"), Parser.Type.DOUBLE, null);
-            double  right = (double) Parser.parseArgument(args.get("right"), Parser.Type.DOUBLE, null);
+            //double left = (double) Parser.parseArgument(args.named().get("left"), Parser.Type.DOUBLE, null);
+            //double right = (double) Parser.parseArgument(args.named().get("right"), Parser.Type.DOUBLE, null);
+            double left = Parser.useParser(new DoubleParser(), args.named().get("left"));
+            double right = Parser.useParser(new DoubleParser(), args.named().get("right"));
             Map<String, Object> result = new HashMap<>();
             result.put("left", left);
             result.put("right", right);
@@ -96,13 +100,10 @@ public class Scenarios {
         //if (number < 1 || number > 100) ...
         try {
             var args = Lexer.lex(arguments);
-            if (args.size() > 1 || args.isEmpty()) {
-                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
+            if (args.named().size() > 1 || args.named().isEmpty()) {
+                return new Result.Failure<>("Invalid # of Arguments: " + args.named().size());
             }
-            int number = (Integer) Parser.parseArgument(args.get("0"), Parser.Type.INTEGER, null);
-            if (number < 1 || number > 100) {
-                throw new IllegalArgumentException("Expected valid number: " + number);
-            }
+            int number = Parser.useParser(new IntegerRangeParser(), args.named().get("0"));
             Map<String, Object> result = new HashMap<>();
             result.put("number", number);
             return new Result.Success<>(result);
@@ -114,13 +115,10 @@ public class Scenarios {
     private static Result<Map<String, Object>> difficulty(String arguments) {
         try {
             var args = Lexer.lex(arguments);
-            if (args.size() > 1 || args.isEmpty()) {
-                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
+            if (args.named().size() > 1 || args.named().isEmpty()) {
+                return new Result.Failure<>("Invalid # of Arguments: " + args.named().size());
             }
-            String difficulty = (String) Parser.parseArgument(args.get("0"), Parser.Type.STRING, null);
-            if (!Objects.equals(difficulty, "easy") && !Objects.equals(difficulty, "normal") &&!Objects.equals(difficulty, "hard") &&!Objects.equals(difficulty, "peaceful")) {
-                throw new IllegalArgumentException("Expected valid difficulty: " + difficulty);
-            }
+            String difficulty = Parser.useParser(new StringChoiceParser(), args.named().get("0"));
             Map<String, Object> result = new HashMap<>();
             result.put("difficulty", difficulty);
             return new Result.Success<>(result);
@@ -132,18 +130,18 @@ public class Scenarios {
     private static Result<Map<String, Object>> echo(String arguments) {
         try {
             var args = Lexer.lex(arguments);
-            if (args.isEmpty()) {
-                String message = (String) Parser.parseArgument("Echo, echo, echo!", Parser.Type.STRING, null);
+            if (args.named().isEmpty()) {
+                //String message = (String) Parser.parseArgument("Echo, echo, echo!", Parser.Type.STRING, null);
                 Map<String, Object> result = new HashMap<>();
-                result.put("message", message);
+                //result.put("message", message);
                 return new Result.Success<>(result);
             }
-            if (args.size() > 1) {
-                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
+            if (args.named().size() > 1) {
+                return new Result.Failure<>("Invalid # of Arguments: " + args.named().size());
             }
-            String message = (String) Parser.parseArgument(args.get("0"), Parser.Type.STRING, null);
+            //String message = (String) Parser.parseArgument(args.named().get("0"), Parser.Type.STRING, null);
             Map<String, Object> result = new HashMap<>();
-            result.put("message", message);
+            //result.put("message", message);
             return new Result.Success<>(result);
         } catch (Exception e) {
             return new Result.Failure<>("Error in echo command: " + e.getMessage());
@@ -154,24 +152,24 @@ public class Scenarios {
         try {
             var args = Lexer.lex(arguments);
             Map<String, Object> result = new HashMap<>();
-            if (args.size() == 2) {
-                Boolean case_insensitive = (Boolean) Parser.parseArgument(args.get("case-insensitive"), Parser.Type.BOOLEAN, null);
+            /*if (args.named().size() == 2) {
+                Boolean case_insensitive = (Boolean) Parser.parseArgument(args.named().get("case-insensitive"), Parser.Type.BOOLEAN, null);
                 if (case_insensitive) {
-                    String term = (String) Parser.parseArgument(args.get("0"), Parser.Type.STRING, null);
+                    String term = (String) Parser.parseArgument(args.named().get("0"), Parser.Type.STRING, null);
                     result.put("term", term);
                 } else {
-                    String term = (String) Parser.parseArgument(args.get("0").toLowerCase(), Parser.Type.STRING, null);
+                    String term = (String) Parser.parseArgument(args.named().get("0").toLowerCase(), Parser.Type.STRING, null);
                     result.put("term", term);
                 }
                 result.put("case-insensitive", case_insensitive);
-            } else if (args.size() == 1) {
+            } else if (args.named().size() == 1) {
                 Boolean case_insensitive = (Boolean) Parser.parseArgument("false", Parser.Type.BOOLEAN, null);
-                String term = (String) Parser.parseArgument(args.get("0"), Parser.Type.STRING, null);
+                String term = (String) Parser.parseArgument(args.named().get("0"), Parser.Type.STRING, null);
                 result.put("term", term);
                 result.put("case-insensitive", case_insensitive);
-            } else if (args.size() > 2 || args.isEmpty()) {
-                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
-            }
+            } else if (args.named().size() > 2 || args.named().isEmpty()) {
+                return new Result.Failure<>("Invalid # of Arguments: " + args.named().size());
+            }*/
             return new Result.Success<>(result);
         } catch (Exception e) {
             return new Result.Failure<>("Error in search command: " + e.getMessage());
@@ -181,17 +179,17 @@ public class Scenarios {
     private static Result<Map<String, Object>> weekday(String arguments) {
         try {
             var args = Lexer.lex(arguments);
-            if (args.size() > 1 || args.isEmpty()) {
-                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
+            if (args.named().size() > 1 || args.named().isEmpty()) {
+                return new Result.Failure<>("Invalid # of Arguments: " + args.named().size());
             }
-            Parser.putCustomParser(LocalDate.class, value -> {
+            Parser.useParser(LocalDate.class, value -> {
                 try {
                     return LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE);
                 } catch (DateTimeParseException e) {
                     throw new IllegalArgumentException("Expected valid date format: " + value);
                 }
             });
-            LocalDate data = (LocalDate) Parser.parseArgument(args.get("0"), Parser.Type.CUSTOM, LocalDate.class);
+            LocalDate data = (LocalDate) Parser.parseArgument(args.named().get("0"), Parser.Type.CUSTOM, LocalDate.class);
             Map<String, Object> result = new HashMap<>();
             result.put("date", data);
             return new Result.Success<>(result);

@@ -1,11 +1,19 @@
 package oop.project.library.parser;
 
-import oop.project.library.custom.ArgumentParser;
+import java.text.ParseException;
 
-import java.util.HashMap;
-import java.util.Map;
+@FunctionalInterface
+public interface Parser<T> {
 
-public class Parser {
+    T parse(String value) throws ParseException;
+
+    public static <T> T useParser(Parser<T> parser, String value) throws ParseException {
+        return parser.parse(value);
+    }
+}
+
+//old implementation for Part 2
+/*public class Parser {
 
     public enum Type {
         BOOLEAN, INTEGER, DOUBLE, STRING, CUSTOM
@@ -32,6 +40,25 @@ public class Parser {
             default:
                 throw new IllegalArgumentException("Unsupported type: " + type);
         }
+    }
+
+    public static Integer parseRange(String value) {
+        try {
+            int temp = parseInteger(value);
+            if (temp > 0 && temp <= 100) {
+                return temp;
+            }
+            throw new IllegalArgumentException("Invalid integer, must be an in the range [1,100]");
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid integer: " + value);
+        }
+    }
+
+    public static String parseChoices(String value) {
+        if (Objects.equals(value, "easy") || Objects.equals(value, "medium") || Objects.equals(value, "hard") || Objects.equals(value, "peaceful")) {
+            return parseString(value);
+        }
+        throw new IllegalArgumentException("Invalid choice; must be \"easy\", \"medium\", \"hard\", \"peaceful\"");
     }
 
     private static boolean parseBoolean(String value) {
@@ -72,4 +99,4 @@ public class Parser {
         return customParsers.get(customType).parse(value);
     }
 
-}
+} */
