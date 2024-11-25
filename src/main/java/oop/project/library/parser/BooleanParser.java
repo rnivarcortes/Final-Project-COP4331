@@ -11,7 +11,7 @@ public class BooleanParser implements Parser<Boolean> {
         } else if ("false".equalsIgnoreCase(value)) {
             return false;
         } else {
-            throw new IllegalArgumentException("Invalid boolean: " + value);
+            throw new IllegalArgumentException("Parser Error: Invalid boolean: " + value);
         }
     }
 }
