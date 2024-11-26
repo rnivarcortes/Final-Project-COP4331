@@ -23,9 +23,7 @@ public Command(String name, List<Argument> arguments) {
     public List<Object> parse(String arguments) throws ParseException{  //might be better data structure instead of object
         var lexer = Lexer.lex(arguments);
         var named = lexer.named();
-      //  if(!lexer.named().isEmpty()){
-      //      throw new ParseException("Named arguments not supported yet", lexer.positional().size());
-        // }
+
         var map = new HashMap<String, Object>();
         int positionalIndex = 0;
 
@@ -121,10 +119,9 @@ return switch (command.name){
         if (args.named().size() > 2){
             throw new ParseException("Too many arguments", args.named().size());
         }
-
-        String[] tokens = arguments.split(" ");//only way I could split the space correctly
-        int left = Integer.parseInt(tokens[0]);
-        int right = Integer.parseInt(tokens[1]);  //assuming arguments are correct should work
+        
+        int left = Integer.parseInt(args.positional().get(0));
+        int right = Integer.parseInt(args.positional().get(1));
 
         Map<String, Object> result = new HashMap<>();
         result.put("left", left);
