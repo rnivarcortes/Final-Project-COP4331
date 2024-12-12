@@ -46,7 +46,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Main.executor": "Debug",
+    "Application.Main.executor": "Run",
     "JUnit.ScenariosTests.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "last_opened_file_path": "C:/Users/ricar/Rico's Stuff/School/Courses/COP4331/FinalProject",
@@ -101,7 +101,7 @@
       <workItem from="1731021444230" duration="10427000" />
       <workItem from="1731379606099" duration="1065000" />
       <workItem from="1734037377012" duration="52000" />
-      <workItem from="1734037441574" duration="2520000" />
+      <workItem from="1734037441574" duration="4670000" />
     </task>
     <servers />
   </component>
@@ -114,7 +114,7 @@
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/oop/project/library/command/Command.java</url>
           <line>29</line>
-          <option name="timeStamp" value="7" />
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

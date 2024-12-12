@@ -29,11 +29,7 @@ public Command(String name, List<Argument> arguments) {
 
         for(Argument argument : arguments) {
             if (argument.isPositional()) { // all for positional args
-                if (lexer.positional().size() < positionalIndex) { //this is where we handle positional arguments
-                    if (argument.isOptional()) {
-                        map.put(argument.name(), argument.defaultValue()); //improve design of "" here, default values suggested
-                        continue;
-                    }
+                if (lexer.positional().size() <= positionalIndex) { //this is where we handle positional arguments
                     throw new ParseException("Too few arguments", lexer.positional().size()); //TODO: Optional
                 }
                 var raw = lexer.positional().get(positionalIndex++);

@@ -19,7 +19,7 @@ public class Lexer {
         String[] values = input.split("\\s+");
 
         if (input.isEmpty()) {
-            return new Data(List.of(values), Map.of()); //return empty
+            return new Data(List.of(), Map.of()); //return empty
         }
 
         int index = 0;
