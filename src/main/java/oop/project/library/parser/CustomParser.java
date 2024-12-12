@@ -1,17 +1,20 @@
 package oop.project.library.parser;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.text.ParseException;
 
-public class CustomParser {
-    private static final Map<Class<?>, Parser<?>> customParsers = new HashMap<Class<?>, Parser<?>>();
-    public static <T> void putCustomParser(Class<T> customType, Parser<T> parser) {}
-    public static Object parseCustom(String value, Class<?> customType) {
-        if (customType == null || !customParsers.containsKey(customType)) {
-            throw new IllegalArgumentException("No parser registered for custom type: " + customType);
-        }
-        // Use the registered parser for the specified custom type
-        //return customParsers.get(customType).parse(value);
-        return null;
+public class CustomParser<T> implements Parser<T> {
+    private final Class<?> type;
+
+    public CustomParser(Class<?> type) {
+        this.type = type;
     }
+
+     @Override
+    public T parse(String value) throws ParseException {
+         if (type == null || !customParsers.containsKey(type)) {
+             throw new IllegalArgumentException("No parser registered for custom type: " + type);
+         }
+         // Use the registered parser for the specified custom type
+         return (T) customParsers.get(type).parse(value);
+     }
 }

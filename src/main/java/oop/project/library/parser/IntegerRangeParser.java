@@ -12,7 +12,7 @@ public class IntegerRangeParser implements Parser<Integer> {
     }
 
     @Override
-    public Integer parse(String value) throws ParseException { //is our integer range parser only for 1-100?
+    public Integer parse(String value) throws ParseException {
         try {
             int temp = Integer.parseInt(value);
             if (temp > min && temp <= max) {

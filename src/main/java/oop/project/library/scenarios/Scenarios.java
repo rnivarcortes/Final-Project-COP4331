@@ -2,7 +2,7 @@ package oop.project.library.scenarios;
 
 import oop.project.library.command.Command;
 import oop.project.library.lexer.Lexer;
-import oop.project.library.parser.CustomParser;
+import oop.project.library.parser.Parser;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -130,10 +130,9 @@ public class Scenarios {
     }
 
     private static Result<Map<String, Object>> weekday(String arguments) {
-       // return new Result.Failure<>("Not implemented yet!");
         try {
             //trying stuff
-            CustomParser.putCustomParser(LocalDate.class, value -> {
+            Parser.putCustomParser(LocalDate.class, value -> {
                 try {
                     return LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE);
                 } catch (DateTimeParseException e) {

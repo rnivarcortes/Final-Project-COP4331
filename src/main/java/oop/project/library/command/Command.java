@@ -27,8 +27,6 @@ public Command(String name, List<Argument> arguments) {
         var map = new HashMap<String, Object>();
         int positionalIndex = 0;
 
-       // System.out.println("testing name: "+ name);
-
         for(Argument argument : arguments) {
             if (argument.isPositional()) { // all for positional args
                 if (lexer.positional().size() < positionalIndex) { //this is where we handle positional arguments
@@ -106,14 +104,14 @@ public Command(String name, List<Argument> arguments) {
 
     public static Command weekday() {
         return new Command("weekday", List.of(
-                new Argument("date", new localDateParser(), true, false, null)
+                //new Argument("date", new localDateParser(), true, false, null)
+                new Argument("date", new CustomParser<>(java.time.LocalDate.class), true, false, null)
         ));
 
     }
 
     public static Map<String, Object> runAll(Command command, String arguments){
         try {
-            var args = Lexer.lex(arguments); //this could be wrong
             return (parse(arguments, command.arguments));
         } catch (Exception e) {
             throw new RuntimeException(e);
