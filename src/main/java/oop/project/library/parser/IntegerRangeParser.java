@@ -2,6 +2,13 @@ package oop.project.library.parser;
 
 import java.text.ParseException;
 
+/*
+*
+* Parses string to integer
+* Ensures integer is within range passed in from values min,max
+*
+*/
+
 public class IntegerRangeParser implements Parser<Integer> {
     private final int min;
     private final int max;
@@ -10,7 +17,7 @@ public class IntegerRangeParser implements Parser<Integer> {
         this.min = min;
         this.max = max;
     }
-
+//Checks to make sure value falls between given range
     @Override
     public Integer parse(String value) throws ParseException {
         try {
