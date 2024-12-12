@@ -17,12 +17,4 @@ public record Argument(
         boolean isPositional,
         boolean isOptional,
         String defaultValue
-) {
-    public Argument(String name, Parser<?> parser, boolean isPositional, boolean isOptional, String defaultValue) {
-        this.name = name;
-        this.parser = parser;
-        this.isPositional = isPositional;
-        this.isOptional = isOptional;
-        this.defaultValue = defaultValue;
-    }
-}
+) {}
