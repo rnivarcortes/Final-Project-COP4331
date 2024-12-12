@@ -25,7 +25,7 @@ public class IntegerRangeParser implements Parser<Integer> {
             if (temp > min && temp <= max) {
                 return temp;
             }
-            throw new IllegalArgumentException("Parser Error: Expected valid integer in the range [0,100]: " + temp);
+            throw new IllegalArgumentException("Parser Error: Expected valid integer in the range [" + min + ", " + max + "]: " + temp);
         } catch (NumberFormatException e) {
             throw new ParseException(e.getMessage(), 0);
         }

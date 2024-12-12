@@ -8,12 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.gradle/8.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.8/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/oop/project/library/parser/localDateParser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/oop/project/library/parser/CustomParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/oop/project/library/parser/CustomParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/oop/project/library/parser/IntegerRangeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/oop/project/library/parser/IntegerRangeParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/oop/project/library/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/oop/project/library/parser/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/oop/project/library/parser/StringChoiceParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/oop/project/library/parser/StringChoiceParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/oop/project/library/parser/localDateParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/oop/project/library/argument/Argument.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/oop/project/library/argument/Argument.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/oop/project/library/argument/Argument.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/oop/project/library/argument/Argument.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,6 +107,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+    </configuration>
     <configuration default="true" type="TestNG">
       <option name="TEST_OBJECT" value="CLASS" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
@@ -129,15 +129,6 @@
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="TestNG">
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <properties />
-      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -164,6 +155,8 @@
       <workItem from="1731379606099" duration="1065000" />
       <workItem from="1734037377012" duration="52000" />
       <workItem from="1734037441574" duration="4670000" />
+      <workItem from="1734045380987" duration="1610000" />
+      <workItem from="1734047405337" duration="314000" />
     </task>
     <task id="LOCAL-00001" summary="Documentation">
       <option name="closed" value="true" />
@@ -188,7 +181,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/oop/project/library/command/Command.java</url>
-          <line>35</line>
+          <line>41</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>

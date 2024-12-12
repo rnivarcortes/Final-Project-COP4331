@@ -25,7 +25,7 @@ public class StringChoiceParser implements Parser<String> {
         if (choices.contains(value)) {
             return value;
         } else {
-            throw new ParseException("Parser Error: String choice not available: " + value, 0);
+            throw new ParseException("Parser Error: String choice not available (" + choices + "): " + value, 0);
 
         }
     }
