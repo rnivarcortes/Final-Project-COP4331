@@ -7,9 +7,9 @@ public record Argument(
         Parser<?> parser,
         boolean isPositional, //tue of yes, false if named
         boolean isOptional,
-        Object defaultValue
+        String defaultValue
 ) {
-    public Argument(String name, Parser<?> parser, boolean isPositional, boolean isOptional, Object defaultValue) {
+    public Argument(String name, Parser<?> parser, boolean isPositional, boolean isOptional, String defaultValue) {
         this.name = name;
         this.parser = parser;
         this.isPositional = isPositional;

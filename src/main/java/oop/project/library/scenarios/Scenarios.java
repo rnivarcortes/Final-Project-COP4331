@@ -2,7 +2,11 @@ package oop.project.library.scenarios;
 
 import oop.project.library.command.Command;
 import oop.project.library.lexer.Lexer;
+import oop.project.library.parser.CustomParser;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -128,6 +132,21 @@ public class Scenarios {
     private static Result<Map<String, Object>> weekday(String arguments) {
        // return new Result.Failure<>("Not implemented yet!");
         try {
+            //trying stuff
+            CustomParser.putCustomParser(LocalDate.class, value -> {
+                try {
+                    return LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE);
+                } catch (DateTimeParseException e) {
+                    throw new IllegalArgumentException("Expected valid date format: " + value);
+                }
+            });
+
+
+
+
+
+
+            //working without custom typing
             Command wkdy = Command.weekday();
             Map<String, Object> result = Command.runAll(wkdy,arguments);
             return new Result.Success<>(result);

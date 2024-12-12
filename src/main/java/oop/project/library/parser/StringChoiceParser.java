@@ -1,27 +1,25 @@
 package oop.project.library.parser;
 
 import java.text.ParseException;
+import java.util.List;
 
-public class StringChoiceParser<E extends Enum<E>> implements Parser<E> {
-    private final Class<E> type;
+public class StringChoiceParser implements Parser<String> {
+    private final List<String> choices;
 
-    public StringChoiceParser(Class<E> type) {
-        if (type == null) {
-            throw new IllegalArgumentException("Parser Error: Cant have empty String");
-        }
-        this.type = type;
+    public StringChoiceParser(List<String> choices) {
+        this.choices = choices;
     }
 
     @Override
-    public E parse(String value) throws ParseException {
+    public String parse(String value) throws ParseException {
         if (value == null || value.isBlank()) {
             throw new ParseException("Parser Error: String input cannot be empty", 0);
         }
-        try {
-            return Enum.valueOf(type, value); //should return enum value, check here if it doesnt work
-        } catch (IllegalArgumentException e) {
-
+        if (choices.contains(value)) {
+            return value;
+        } else {
             throw new ParseException("Parser Error: String choice not available: " + value, 0);
+
         }
     }
 }
