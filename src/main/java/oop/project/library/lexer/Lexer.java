@@ -21,9 +21,7 @@ public class Lexer {
         if (input.isEmpty()) {
             return new Data(List.of(), Map.of()); //return empty
         }
-
         int index = 0;
-
         for (int i = 0; i < values.length; i++) {
 String value = values[i];
             if (values[i].startsWith("--")) {
@@ -33,14 +31,9 @@ String value = values[i];
                }
 
                String flag = values[i].substring(2);//gets flag name
-                //believe this should be in command class
-
-                //still need to split into positional and named arguments here I think
-
                 //check name of command
                 //dependent of name, save into map based off argument names
                 //save the string "--optional""
-
                 if (i + 1 < values.length && !values[i + 1].startsWith("--")) {
                     named.put(flag, values[++i]);
                 } else {
@@ -54,7 +47,6 @@ String value = values[i];
             }
 positional.add(values[i]);
         }
-
         return new Data(positional, named);
 
     }

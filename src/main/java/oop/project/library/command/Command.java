@@ -10,15 +10,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/*
+ * Separates user input into relevant data for our library to use
+ * Fills argument object and inserts arguments to a list of arguments.
+ * handles commands, delegates information to arguments and parser class
+ */
+
 public class Command {
-    private final String name;  //might not be helpful
-    List<Argument> arguments;   //this will be positional and named args
+    private final String name;   //name of command
+    List<Argument> arguments;   //List of all arguments for the given command
 
 public Command(String name, List<Argument> arguments) {
     this.name = name;
     this.arguments = arguments;
 }
-
+    //parses given argument string into argument object
     public static Map<String, Object> parse(String argumentsLexing, List<Argument> arguments) throws ParseException{  //might be better data structure instead of object
         var lexer = Lexer.lex(argumentsLexing);
         var named = lexer.named();
@@ -28,15 +34,15 @@ public Command(String name, List<Argument> arguments) {
         int positionalIndex = 0;
 
         for(Argument argument : arguments) {
-            if (argument.isPositional()) { // all for positional args
-                if (lexer.positional().size() <= positionalIndex) { //this is where we handle positional arguments
-                    throw new ParseException("Too few arguments", lexer.positional().size()); //TODO: Optional
+            if (argument.isPositional()) { //Handle positional args
+                if (lexer.positional().size() <= positionalIndex) {
+                    throw new ParseException("Too few arguments", lexer.positional().size());
                 }
                 var raw = lexer.positional().get(positionalIndex++);
                 var parsed = argument.parser().parse(raw);
                 map.put(argument.name(), parsed);
             }
-            else { //these are named args
+            else { //Handle named args
                 if (named.containsKey(argument.name())){
                     String raw = named.get(argument.name());
                     Object parsed = argument.parser().parse(raw);
@@ -55,14 +61,14 @@ public Command(String name, List<Argument> arguments) {
                 positionalIndex++;
             }
         }
-        //just a check for too many args
+        //Error checking for too many args
         if (lexer.positional().size() > positionalIndex){
             throw new ParseException("Too many arguments", lexer.positional().size());
         }
         return map;
     }
 
-
+//Populates argument object based on what command is called
     public static Command add(){
         return new Command("add", List.of(
                 new Argument("left", new IntegerParser(), true, false, null),
