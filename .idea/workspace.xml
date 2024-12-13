@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="67b513b5-184e-4036-b8d1-5aa5f8fbe536" name="Changes" comment="Documentation">
-      <change beforePath="$PROJECT_DIR$/.gradle/8.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.8/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/oop/project/library/argument/Argument.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/oop/project/library/argument/Argument.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/oop/project/library/argument/Argument.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/oop/project/library/argument/Argument.java" afterDir="false" />
+    <list default="true" id="67b513b5-184e-4036-b8d1-5aa5f8fbe536" name="Changes" comment="Rem localDateParser &amp; add documentation">
+      <change beforePath="$PROJECT_DIR$/src/main/java/oop/project/library/lexer/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/oop/project/library/lexer/Lexer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,7 +162,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734043672905</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Rem localDateParser &amp; add documentation">
+      <option name="closed" value="true" />
+      <created>1734046918341</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1734046918341</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,7 +178,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Documentation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Documentation" />
+    <MESSAGE value="Rem localDateParser &amp; add documentation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rem localDateParser &amp; add documentation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
