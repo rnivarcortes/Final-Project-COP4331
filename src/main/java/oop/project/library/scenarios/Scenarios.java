@@ -1,5 +1,6 @@
 package oop.project.library.scenarios;
 
+import oop.project.library.command.Command;
 import oop.project.library.lexer.Lexer;
 import oop.project.library.parser.Parser;
 
@@ -8,16 +9,33 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+/* DOCUMENTATION:
+ * Scenarios.java is responsible for processing various commands within the library
+ *
+ * Each command processed by corresponding method which is based on users initial input
+ * values following are the commands arguments
+ * Arguments can be positional, named, or optional
+ * positional arguments are the default
+ * named arguments are to be specified with --flag
+ * optional arguments are dictated by command type
+ *
+ * Input specification for commands include these arguments-
+ *
+ * lex - any number of any arguments
+ * add - two positional arguments
+ * sub - two named arguments
+ * fizzbuzz - one positional argument
+ * difficulty - one positional argument
+ * echo - one optional argument (treat as positional)
+ * search - one positional and 1 optional argument
+ * weekday - one positional argument
+ *
+ */
 
 public class Scenarios {
 
     public static Result<Map<String, Object>> parse(String command) {
-        //Note: Unlike argparse4j, our library will contain a lexer than can
-        //support an arbitrary String (instead of requiring a String[] array).
-        //We still need to split the base command from the actual arguments
-        //string to know which scenario (aka command) we're trying to parse
-        //arguments for. This sounds like something a library should handle...
         var split = command.split(" ", 2);
         var base = split[0];
         var arguments = split.length == 2 ? split[1] : "";
@@ -33,157 +51,90 @@ public class Scenarios {
             default -> throw new AssertionError("Undefined command " + base + ".");
         };
     }
-
+    // Used for testing internal lexer behavior
     private static Result<Map<String, Object>> lex(String arguments) {
-        //Note: For ease of testing, this should use your Lexer implementation
-        //directly rather and return those values.
         try {
-            Map<String, String> lexArguments = Lexer.lex(arguments);
-            Map<String, Object> result = new HashMap<>(lexArguments);
+            var lexArguments = Lexer.lex(arguments);
+            Map<String, Object> result = new HashMap<>(lexArguments.named());
             return new Result.Success<>(result);
         } catch (Exception e) {
             return new Result.Failure<>("Error lexing arguments: " + e.getMessage());
         }
     }
-
+    //adds together two positional arguments
     private static Result<Map<String, Object>> add(String arguments) {
-        //Note: For this part of the project, we're focused on lexing/parsing.
-        //The implementation of these scenarios isn't going to look like a full
-        //command, but rather some weird hodge-podge mix. For example:
-        //var args = Lexer.parse(arguments);
-        //var left = IntegerParser.parse(args.positional[0]);
-        //This is fine - our goal right now is to implement this functionality
-        //so we can build up the actual command system in Part 3.
         try {
-            var args = Lexer.lex(arguments);
-            if (args.size() > 2 || args.isEmpty()) {
-                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
-            }
-            int left = (Integer) Parser.parseArgument(args.get("0"), Parser.Type.INTEGER, null);
-            int right = (Integer) Parser.parseArgument(args.get("1"), Parser.Type.INTEGER, null);
-            Map<String, Object> result = new HashMap<>();
-            result.put("left", left);
-            result.put("right", right);
+            Command add = Command.add(); //this initializes the arguments for the add command
+            Map<String, Object> result = Command.runAll(add,arguments);
             return new Result.Success<>(result);
-        } catch (Exception e) {
+            }catch (Exception e) {
             return new Result.Failure<>(e.getMessage());
         }
     }
-
+    //subtracts two named arguments
     private static Result<Map<String, Object>> sub(String arguments) {
         try {
-            var args = Lexer.lex(arguments);
-            if (args.size() > 2 || args.isEmpty()) {
-                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
-            }
-            double left = (double) Parser.parseArgument(args.get("left"), Parser.Type.DOUBLE, null);
-            double  right = (double) Parser.parseArgument(args.get("right"), Parser.Type.DOUBLE, null);
-            Map<String, Object> result = new HashMap<>();
-            result.put("left", left);
-            result.put("right", right);
+            Command sub = Command.sub();
+            Map<String, Object> result = Command.runAll(sub,arguments);
             return new Result.Success<>(result);
         } catch (Exception e) {
             return new Result.Failure<>(e.getMessage());
         }
     }
-
+//runs fizzbuzz algorithm on a number between the ranger 0-100
+    //Returns an error if not between 0-100
     private static Result<Map<String, Object>> fizzbuzz(String arguments) {
-        //Note: This is the first command your library may not support all the
-        //functionality to implement yet. This is fine - parse the number like
-        //normal, then check the range manually. The goal is to get a feel for
-        //the validation involved even if it's not in the library yet.
-        //var number = IntegerParser.parse(lexedArguments.get("number"));
-        //if (number < 1 || number > 100) ...
         try {
-            var args = Lexer.lex(arguments);
-            if (args.size() > 1 || args.isEmpty()) {
-                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
-            }
-            int number = (Integer) Parser.parseArgument(args.get("0"), Parser.Type.INTEGER, null);
-            if (number < 1 || number > 100) {
-                throw new IllegalArgumentException("Expected valid number: " + number);
-            }
-            Map<String, Object> result = new HashMap<>();
-            result.put("number", number);
+            Command fizz = Command.fizzbuzz();
+            Map<String, Object> result = Command.runAll(fizz,arguments);
             return new Result.Success<>(result);
         } catch (Exception e) {
             return new Result.Failure<>("Error in fizzbuzz command: " + e.getMessage());
         }
     }
-
+//Takes positional argument that must be one of the below strings
+    //"easy", "normal", "hard", "peaceful"
     private static Result<Map<String, Object>> difficulty(String arguments) {
         try {
-            var args = Lexer.lex(arguments);
-            if (args.size() > 1 || args.isEmpty()) {
-                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
-            }
-            String difficulty = (String) Parser.parseArgument(args.get("0"), Parser.Type.STRING, null);
-            if (!Objects.equals(difficulty, "easy") && !Objects.equals(difficulty, "normal") &&!Objects.equals(difficulty, "hard") &&!Objects.equals(difficulty, "peaceful")) {
-                throw new IllegalArgumentException("Expected valid difficulty: " + difficulty);
-            }
-            Map<String, Object> result = new HashMap<>();
-            result.put("difficulty", difficulty);
+            Command diff = Command.difficulty();
+            Map<String, Object> result = Command.runAll(diff,arguments);
             return new Result.Success<>(result);
         } catch (Exception e) {
             return new Result.Failure<>("Error in difficulty command: " + e.getMessage());
         }
     }
-
+     /*
+     * Echos arguments back to the user
+     * Takes and optional argument
+     * if argument present will echo provided argument
+     * if not the default will display "Echo, echo, echo..."
+     */
     private static Result<Map<String, Object>> echo(String arguments) {
         try {
-            var args = Lexer.lex(arguments);
-            if (args.isEmpty()) {
-                String message = (String) Parser.parseArgument("Echo, echo, echo!", Parser.Type.STRING, null);
-                Map<String, Object> result = new HashMap<>();
-                result.put("message", message);
-                return new Result.Success<>(result);
-            }
-            if (args.size() > 1) {
-                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
-            }
-            String message = (String) Parser.parseArgument(args.get("0"), Parser.Type.STRING, null);
-            Map<String, Object> result = new HashMap<>();
-            result.put("message", message);
+            Command echo = Command.echo();
+            Map<String, Object> result = Command.runAll(echo,arguments);
             return new Result.Success<>(result);
         } catch (Exception e) {
             return new Result.Failure<>("Error in echo command: " + e.getMessage());
         }
     }
-
+//Searches for term given by provided arguments
+// Takes one positional argument of any string (without spaces) and an optional flag
+// Can specify case sensitivity with optional boolean flag --case-insensitive [true or false]
     private static Result<Map<String, Object>> search(String arguments) {
         try {
-            var args = Lexer.lex(arguments);
-            Map<String, Object> result = new HashMap<>();
-            if (args.size() == 2) {
-                Boolean case_insensitive = (Boolean) Parser.parseArgument(args.get("case-insensitive"), Parser.Type.BOOLEAN, null);
-                if (case_insensitive) {
-                    String term = (String) Parser.parseArgument(args.get("0"), Parser.Type.STRING, null);
-                    result.put("term", term);
-                } else {
-                    String term = (String) Parser.parseArgument(args.get("0").toLowerCase(), Parser.Type.STRING, null);
-                    result.put("term", term);
-                }
-                result.put("case-insensitive", case_insensitive);
-            } else if (args.size() == 1) {
-                Boolean case_insensitive = (Boolean) Parser.parseArgument("false", Parser.Type.BOOLEAN, null);
-                String term = (String) Parser.parseArgument(args.get("0"), Parser.Type.STRING, null);
-                result.put("term", term);
-                result.put("case-insensitive", case_insensitive);
-            } else if (args.size() > 2 || args.isEmpty()) {
-                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
-            }
+            Command search = Command.search();
+            Map<String, Object> result = Command.runAll(search,arguments);
             return new Result.Success<>(result);
         } catch (Exception e) {
             return new Result.Failure<>("Error in search command: " + e.getMessage());
         }
     }
-
+    //provides weekday for given date
+// Takes one positional argument which is an ISO-8601 data
+    //Will be stored as a LocalDate
     private static Result<Map<String, Object>> weekday(String arguments) {
         try {
-            var args = Lexer.lex(arguments);
-            if (args.size() > 1 || args.isEmpty()) {
-                return new Result.Failure<>("Invalid # of Arguments: " + args.size());
-            }
             Parser.putCustomParser(LocalDate.class, value -> {
                 try {
                     return LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE);
@@ -191,9 +142,8 @@ public class Scenarios {
                     throw new IllegalArgumentException("Expected valid date format: " + value);
                 }
             });
-            LocalDate data = (LocalDate) Parser.parseArgument(args.get("0"), Parser.Type.CUSTOM, LocalDate.class);
-            Map<String, Object> result = new HashMap<>();
-            result.put("date", data);
+            Command wkdy = Command.weekday();
+            Map<String, Object> result = Command.runAll(wkdy,arguments);
             return new Result.Success<>(result);
         } catch (Exception e) {
             return new Result.Failure<>("Error in weekday command: " + e.getMessage());
