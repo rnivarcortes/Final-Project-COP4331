@@ -74,6 +74,7 @@
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.ScenariosTests.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.ScenariosTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ScenariosTests.executor&quot;: &quot;Run&quot;,b5896cb13dc890de1cf5c12737de1a4912cb1a2f
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;#1 on Ricardo&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/ricar/Rico's Stuff/School/Courses/COP4331/FinalProject&quot;,
@@ -82,9 +83,15 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+b5896cb13dc890de1cf5c12737de1a4912cb1a2f
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
